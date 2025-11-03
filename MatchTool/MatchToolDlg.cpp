@@ -165,7 +165,8 @@ BOOL CMatchToolDlg::OnInitDialog()
 	// TODO: 在此加入額外的初始設定
 	
 	namedWindow ("SrcView", WINDOW_AUTOSIZE);
-	HWND hWnd = (HWND)cvGetWindowHandle ("SrcView");
+	//HWND hWnd = (HWND)cvGetWindowHandle ("SrcView");
+	HWND hWnd = FindWindowA(NULL, "SrcView");  // matches window title
 	HWND hParent = (HWND)FindWindow (NULL, L"SrcView");
 	HWND hOrgParent = ::SetParent (hWnd, GetDlgItem (IDC_STATIC_SRC_VIEW)->m_hWnd);
 	::ShowWindow (hOrgParent, SW_HIDE);
@@ -173,7 +174,8 @@ BOOL CMatchToolDlg::OnInitDialog()
 
 
 	namedWindow ("DstView", WINDOW_AUTOSIZE);
-	hWnd = (HWND)cvGetWindowHandle ("DstView");
+	//hWnd = (HWND)cvGetWindowHandle ("DstView");
+	 hWnd = FindWindowA(NULL, "DstView");  // matches window title
 	hParent = (HWND)FindWindow (NULL, L"DstView");
 	hOrgParent = ::SetParent (hWnd, GetDlgItem (IDC_STATIC_DST_VIEW)->m_hWnd);
 	::ShowWindow (hOrgParent, SW_HIDE);
@@ -309,7 +311,8 @@ void CMatchToolDlg::OnLoadSrc ()
 }
 void CMatchToolDlg::RefreshSrcView ()
 {
-	HWND hWnd = (HWND)cvGetWindowHandle ("SrcView");
+	//HWND hWnd = (HWND)cvGetWindowHandle ("SrcView");
+	HWND hWnd = FindWindowA(NULL, "SrcView");  // matches window title
 	if (!hWnd || m_matSrc.empty ())
 		return;
 	CWnd* pWnd = CWnd::FromHandle (hWnd);
@@ -363,14 +366,14 @@ void CMatchToolDlg::RefreshSrcView ()
 				ptDis1 = (ptLB - ptLT) / 3 * (m_matDst.cols / (float)m_matDst.rows);
 				ptDis2 = (ptRT - ptLT) / 3;
 			}
-			line (matResize, ptLT, ptLT + ptDis1 / 2, colorGreen, 1, CV_AA);
-			line (matResize, ptLT, ptLT + ptDis2 / 2, colorGreen, 1, CV_AA);
-			line (matResize, ptRT, ptRT + ptDis1 / 2, colorGreen, 1, CV_AA);
-			line (matResize, ptRT, ptRT - ptDis2 / 2, colorGreen, 1, CV_AA);
-			line (matResize, ptRB, ptRB - ptDis1 / 2, colorGreen, 1, CV_AA);
-			line (matResize, ptRB, ptRB - ptDis2 / 2, colorGreen, 1, CV_AA);
-			line (matResize, ptLB, ptLB - ptDis1 / 2, colorGreen, 1, CV_AA);
-			line (matResize, ptLB, ptLB + ptDis2 / 2, colorGreen, 1, CV_AA);
+			line (matResize, ptLT, ptLT + ptDis1 / 2, colorGreen, 1, cv::LINE_AA);
+			line (matResize, ptLT, ptLT + ptDis2 / 2, colorGreen, 1, cv::LINE_AA);
+			line (matResize, ptRT, ptRT + ptDis1 / 2, colorGreen, 1, cv::LINE_AA);
+			line (matResize, ptRT, ptRT - ptDis2 / 2, colorGreen, 1, cv::LINE_AA);
+			line (matResize, ptRB, ptRB - ptDis1 / 2, colorGreen, 1, cv::LINE_AA);
+			line (matResize, ptRB, ptRB - ptDis2 / 2, colorGreen, 1, cv::LINE_AA);
+			line (matResize, ptLB, ptLB - ptDis1 / 2, colorGreen, 1, cv::LINE_AA);
+			line (matResize, ptLB, ptLB + ptDis2 / 2, colorGreen, 1, cv::LINE_AA);
 			//
 
 			DrawDashLine (matResize, ptLT + ptDis1, ptLT + ptDis2);
@@ -395,7 +398,8 @@ void CMatchToolDlg::RefreshSrcView ()
 }
 void CMatchToolDlg::RefreshDstView ()
 {
-	HWND hWnd = (HWND)cvGetWindowHandle ("DstView");
+	//HWND hWnd = (HWND)cvGetWindowHandle ("DstView");
+	HWND hWnd = FindWindowA(NULL, "DstView");  // matches window title
 	if (!hWnd || m_matDst.empty ())
 		return;
 	CWnd* pWnd = CWnd::FromHandle (hWnd);
@@ -900,7 +904,7 @@ BOOL CMatchToolDlg::Match ()
 
 		Mat matShow, matResize;
 		resize (vecMatSrcPyr[iTopLayer], matResize, vecMatSrcPyr[iTopLayer].size () * iDebugScale);
-		cvtColor (matResize, matShow, CV_GRAY2BGR);
+		cvtColor (matResize, matShow, cv::COLOR_GRAY2BGR);
 		string str = format ("Toplayer, Candidate:%d", iMatchSize);
 		vector<Point2f> vec;
 		for (int i = 0; i < iMatchSize; i++)
@@ -924,7 +928,8 @@ BOOL CMatchToolDlg::Match ()
 			string strText = format ("%d", i);
 			putText (matShow, strText, ptLT *iDebugScale, FONT_HERSHEY_PLAIN, 1, Scalar (0, 255, 0));
 		}
-		cvNamedWindow (str.c_str (), 0x10000000);
+		//cvNamedWindow (str.c_str (), 0x10000000);
+		cv::namedWindow(str.c_str(), cv::WINDOW_NORMAL);
 		Rect rectShow = boundingRect (vec);
 		imshow (str, matShow);// (rectShow));
 		//moveWindow (str, 0, 0);
@@ -1064,7 +1069,7 @@ BOOL CMatchToolDlg::Match ()
 		//紀錄旋轉矩形
 		vecAllResult[i].rectR = RotatedRect(ptLT, ptRT, ptRB);
 	}
-	FilterWithRotatedRect (&vecAllResult, CV_TM_CCOEFF_NORMED, m_dMaxOverlap);
+	FilterWithRotatedRect (&vecAllResult, cv::TM_CCOEFF_NORMED, m_dMaxOverlap);
 	//最後濾掉重疊
 
 	//根據分數排序
@@ -1301,7 +1306,7 @@ void CMatchToolDlg::MatchTemplate (cv::Mat& matSrc, s_TemplData* pTemplData, cv:
 		//From ImageShop
 	}
 	else
-		matchTemplate (matSrc, pTemplData->vecPyramid[iLayer], matResult, CV_TM_CCORR);
+		matchTemplate (matSrc, pTemplData->vecPyramid[iLayer], matResult, cv::TM_CCORR);
 	
 	/*Mat diff;
 	absdiff(matResult, matResult, diff);
@@ -1516,7 +1521,7 @@ void CMatchToolDlg::FilterWithRotatedRect (vector<s_MatchParameter>* vec, int iM
 			else if (iInterSecType == INTERSECT_FULL) //一個矩形包覆另一個
 			{
 				int iDeleteIndex;
-				if (iMethod == CV_TM_SQDIFF)
+				if (iMethod == cv::TM_SQDIFF)
 					iDeleteIndex = (vec->at (i).dMatchScore <= vec->at (j).dMatchScore) ? j : i;
 				else
 					iDeleteIndex = (vec->at (i).dMatchScore >= vec->at (j).dMatchScore) ? j : i;
@@ -1536,7 +1541,7 @@ void CMatchToolDlg::FilterWithRotatedRect (vector<s_MatchParameter>* vec, int iM
 					//若大於最大交疊比例，選分數高的
 					if (dRatio > dMaxOverLap)
 					{
-						if (iMethod == CV_TM_SQDIFF)
+						if (iMethod == cv::TM_SQDIFF)
 							iDeleteIndex = (vec->at (i).dMatchScore <= vec->at (j).dMatchScore) ? j : i;
 						else
 							iDeleteIndex = (vec->at (i).dMatchScore >= vec->at (j).dMatchScore) ? j : i;
@@ -1574,7 +1579,7 @@ Point CMatchToolDlg::GetNextMaxLoc (Mat & matResult, Point ptMaxLoc, Size sizeTe
 	int iStartX = ptMaxLoc.x - sizeTemplate.width * (1 - dMaxOverlap);
 	int iStartY = ptMaxLoc.y - sizeTemplate.height * (1 - dMaxOverlap);
 	//塗黑
-	rectangle (matResult, Rect (iStartX, iStartY, 2 * sizeTemplate.width * (1- dMaxOverlap), 2 * sizeTemplate.height * (1- dMaxOverlap)), Scalar (-1), CV_FILLED);
+	rectangle (matResult, Rect (iStartX, iStartY, 2 * sizeTemplate.width * (1- dMaxOverlap), 2 * sizeTemplate.height * (1- dMaxOverlap)), Scalar (-1), cv::FILLED);
 	//得到下一個最大值
 	Point ptNewMaxLoc;
 	minMaxLoc (matResult, 0, &dMaxValue, 0, &ptNewMaxLoc);
@@ -1588,7 +1593,7 @@ Point CMatchToolDlg::GetNextMaxLoc (Mat & matResult, Point ptMaxLoc, Size sizeTe
 	Rect rectIgnore (iStartX, iStartY, int (2 * sizeTemplate.width * (1 - dMaxOverlap))
 		, int (2 * sizeTemplate.height * (1 - dMaxOverlap)));
 	//塗黑
-	rectangle (matResult, rectIgnore , Scalar (-1), CV_FILLED);
+	rectangle (matResult, rectIgnore , Scalar (-1), cv::FILLED);
 	blockMax.UpdateMax (rectIgnore);
 	Point ptReturn;
 	blockMax.GetMaxValueLoc (dMaxValue, ptReturn);
@@ -2051,14 +2056,38 @@ void CMatchToolDlg::OnLvnKeydownListMsg (NMHDR *pNMHDR, LRESULT *pResult)
 		if (OpenClipboard ())
 		{
 			EmptyClipboard ();
-			TCHAR* pszData;
+			
 			HGLOBAL hClipboardData = GlobalAlloc (GMEM_DDESHARE, (strAllText.GetLength () + 1) * sizeof (TCHAR));
 			if (hClipboardData)
 			{
-				pszData = (TCHAR*)GlobalLock (hClipboardData);
-				_tcscpy (pszData, strAllText);
-				GlobalUnlock (hClipboardData);
-				SetClipboardData (CF_UNICODETEXT, hClipboardData);//根据相应的数据选择第一个参数，（CF_TEXT）  
+				//TCHAR* pszData;
+				//pszData = (TCHAR*)GlobalLock (hClipboardData);
+				//_tcscpy (pszData, strAllText);
+				//GlobalUnlock (hClipboardData);
+				//SetClipboardData (CF_UNICODETEXT, hClipboardData);//根据相应的数据选择第一个参数，（CF_TEXT）  
+
+				TCHAR* pszData;
+				pszData = (TCHAR*)GlobalLock(hClipboardData);
+				if (pszData != NULL)
+				{
+#ifdef UNICODE
+					// Safe Unicode copy
+					wcscpy_s(pszData, strAllText.GetLength() + 1, strAllText.GetString());
+#else
+					strcpy_s(pszData, strAllText.GetLength() + 1, strAllText.GetString());
+#endif
+					GlobalUnlock(hClipboardData);
+					SetClipboardData(CF_UNICODETEXT, hClipboardData);
+				}
+				else
+				{
+					GlobalFree(hClipboardData); // unlock failed
+				}
+
+
+
+
+
 			}
 			CloseClipboard ();
 		}
@@ -2108,27 +2137,65 @@ void CMatchToolDlg::OnPaint ()
 
 	
 }
-void MouseCall (int event, int x, int y, int flag, void* pUserData)
-{
-	CMatchToolDlg* pDlg = (CMatchToolDlg*)pUserData;
 
-	if (event == CV_EVENT_MOUSEMOVE)
+
+//void MouseCall (int event, int x, int y, int flag, void* pUserData)
+//{
+//	CMatchToolDlg* pDlg = (CMatchToolDlg*)pUserData;
+//
+//	if (event == cv::EVENT_MOUSEMOVE)
+//	{
+//		int iX = int ((x + pDlg->m_hScrollBar.GetScrollPos ()) / pDlg->m_dNewScale);
+//		int iY = int ((y + pDlg->m_vScrollBar.GetScrollPos ()) / pDlg->m_dNewScale);
+//		CString strPos;
+//		strPos.Format (L"%s : %d, %d", pDlg->m_strLanPixelPos, iX, iY);
+//		pDlg->m_statusBar.SetPaneText (3, strPos);
+//	}
+//	//Tracker
+//	HWND hWnd = (HWND)cvGetWindowHandle ("SrcView");
+//	CWnd* pWndView = CWnd::FromHandle (hWnd);
+//	CDC* pDC = pWndView->GetDC ();
+//	if (event == cv::EVENT_LBUTTONDOWN)
+//	{
+//		
+//	}
+//	pWndView->ReleaseDC (pDC);
+//}
+
+
+// A small context you pass to setMouseCallback
+struct MouseCtx
+{
+	CMatchToolDlg* dlg;   // your dialog
+	CWnd* view;  // target control to draw into (e.g., GetDlgItem(IDC_SRCVIEW))
+};
+
+//void MouseCall (int event, int x, int y, int flag, void* pUserData)
+void MouseCall(int event, int x, int y, int flags, void* pUserData)
+{
+	auto* ctx = static_cast<MouseCtx*>(pUserData);
+	CMatchToolDlg* pDlg = ctx->dlg;
+	CWnd* pView = ctx->view;
+
+	if (event == cv::EVENT_MOUSEMOVE)
 	{
-		int iX = int ((x + pDlg->m_hScrollBar.GetScrollPos ()) / pDlg->m_dNewScale);
-		int iY = int ((y + pDlg->m_vScrollBar.GetScrollPos ()) / pDlg->m_dNewScale);
+		int iX = int((x + pDlg->m_hScrollBar.GetScrollPos()) / pDlg->m_dNewScale);
+		int iY = int((y + pDlg->m_vScrollBar.GetScrollPos()) / pDlg->m_dNewScale);
+
 		CString strPos;
-		strPos.Format (L"%s : %d, %d", pDlg->m_strLanPixelPos, iX, iY);
-		pDlg->m_statusBar.SetPaneText (3, strPos);
+		strPos.Format(L"%s : %d, %d", pDlg->m_strLanPixelPos, iX, iY);
+		pDlg->m_statusBar.SetPaneText(3, strPos);
 	}
-	//Tracker
-	HWND hWnd = (HWND)cvGetWindowHandle ("SrcView");
-	CWnd* pWndView = CWnd::FromHandle (hWnd);
-	CDC* pDC = pWndView->GetDC ();
-	if (event == CV_EVENT_LBUTTONDOWN)
+
+	// Draw a tracker with GDI on your control (example)
+	if (event == cv::EVENT_LBUTTONDOWN && pView && pView->GetSafeHwnd())
 	{
-		
+		CClientDC dc(pView);               // auto ReleaseDC in destructor
+		CRect rc; pView->GetClientRect(&rc);
+		dc.SetROP2(R2_NOTXORPEN);          // rubber-band style
+		dc.SelectStockObject(NULL_BRUSH);
+		dc.Rectangle(x - 10, y - 10, x + 10, y + 10);
 	}
-	pWndView->ReleaseDC (pDC);
 }
 
 

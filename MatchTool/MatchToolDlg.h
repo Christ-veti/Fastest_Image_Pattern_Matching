@@ -265,7 +265,7 @@ private:
 	Size  GetBestRotationSize (Size sizeSrc, Size sizeDst, double dRAngle);
 	Point2f ptRotatePt2f (Point2f ptInput, Point2f ptOrg, double dAngle);
 	void FilterWithScore (vector<s_MatchParameter>* vec, double dScore);
-	void FilterWithRotatedRect (vector<s_MatchParameter>* vec, int iMethod = CV_TM_CCOEFF_NORMED, double dMaxOverLap = 0);
+	void FilterWithRotatedRect (vector<s_MatchParameter>* vec, int iMethod = cv::TM_CCOEFF_NORMED, double dMaxOverLap = 0);
 	Point GetNextMaxLoc (Mat & matResult, Point ptMaxLoc, Size sizeTemplate, double& dMaxValue, double dMaxOverlap);
 	Point GetNextMaxLoc (Mat & matResult, Point ptMaxLoc, Size sizeTemplate, double& dMaxValue, double dMaxOverlap, s_BlockMax& blockMax);
 	void SortPtWithCenter (vector<Point2f>& vecSort);

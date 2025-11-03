@@ -39,7 +39,7 @@
     <ProjectGuid>{EF3F0D87-D9D4-4971-A005-1899D08ED33C}</ProjectGuid>
     <Keyword>MFCProj</Keyword>
     <RootNamespace>ELCVMatchTool</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -151,6 +151,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\out\$(Configuration)\</OutDir>
+    <IntDir>..\..\obj\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_4.X|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -265,9 +267,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>W:\OpenCV41\Build\X64\install\include;W:\OpenCV341\Tool\tbb2018\lib\intel64\vc14;W:\DLL PROJECT\prjImageProcessingTools4Veti\src\ImageProcessingTools4Veti;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_86\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64\winsqlite;W:\DLL PROJECT\prjImageProcessingTools4Veti\src\ImageProcessingTools4Veti;W:\OpenCV41\Build\X64\install\x64\vc15\lib;W:\OpenCV341\Tool\tbb2018\lib\intel64\vc14;W:\EDSDK\Library;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64\gdiplus.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_aruco410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_bgsegm410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_bioinspired410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_calib3d410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_ccalib410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_core410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_datasets410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_dpm410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_face410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_features2d410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_flann410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_fuzzy410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_hfs410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_highgui410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_img_hash410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_imgcodecs410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_imgproc410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_line_descriptor410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_ml410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_objdetect410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_optflow410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_phase_unwrapping410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_photo410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_plot410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_reg410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_rgbd410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_saliency410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_shape410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_stitching410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_structured_light410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_superres410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_surface_matching410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_video410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_videoio410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_videostab410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_xfeatures2d410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_ximgproc410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_xobjdetect410d.lib;W:\OpenCV41\Build\X64\install\x64\vc15\lib\opencv_xphoto410d.lib;W:\OpenCV341\Tool\tbb2018\lib\intel64\vc14\tbb.lib;W:\DLL PROJECT\prjImageProcessingTools4Veti\out\DConfig\x64\ImageProcessingTools4Veti.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
