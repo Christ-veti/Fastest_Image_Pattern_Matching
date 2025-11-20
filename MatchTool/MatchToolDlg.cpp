@@ -166,7 +166,8 @@ BOOL CMatchToolDlg::OnInitDialog()
 	
 	namedWindow ("SrcView", WINDOW_AUTOSIZE);
 	//HWND hWnd = (HWND)cvGetWindowHandle ("SrcView");
-	HWND hWnd = FindWindowA(NULL, "SrcView");  // matches window title
+	//HWND hWnd = FindWindowA(NULL, "SrcView");  // matches window title
+	HWND hWnd = ::GetDlgItem(m_hWnd, IDC_STATIC_SRC_VIEW);
 	HWND hParent = (HWND)FindWindow (NULL, L"SrcView");
 	HWND hOrgParent = ::SetParent (hWnd, GetDlgItem (IDC_STATIC_SRC_VIEW)->m_hWnd);
 	::ShowWindow (hOrgParent, SW_HIDE);
@@ -312,7 +313,7 @@ void CMatchToolDlg::OnLoadSrc ()
 void CMatchToolDlg::RefreshSrcView ()
 {
 	//HWND hWnd = (HWND)cvGetWindowHandle ("SrcView");
-	HWND hWnd = FindWindowA(NULL, "SrcView");  // matches window title
+	HWND hWnd = ::GetDlgItem(m_hWnd, IDC_STATIC_SRC_VIEW);//FindWindowA(NULL, "SrcView");  // matches window title
 	if (!hWnd || m_matSrc.empty ())
 		return;
 	CWnd* pWnd = CWnd::FromHandle (hWnd);
@@ -399,7 +400,11 @@ void CMatchToolDlg::RefreshSrcView ()
 void CMatchToolDlg::RefreshDstView ()
 {
 	//HWND hWnd = (HWND)cvGetWindowHandle ("DstView");
-	HWND hWnd = FindWindowA(NULL, "DstView");  // matches window title
+	//HWND hWnd = FindWindowA(NULL, "DstView");  // matches window title
+
+	CWnd* pWndView = GetDlgItem(IDC_STATIC_DST_VIEW//IDC_DSTVIEW
+	);  // your control ID
+	HWND hWnd = pWndView ? pWndView->GetSafeHwnd() : NULL;
 	if (!hWnd || m_matDst.empty ())
 		return;
 	CWnd* pWnd = CWnd::FromHandle (hWnd);
