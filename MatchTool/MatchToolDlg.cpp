@@ -2182,15 +2182,15 @@ void MouseCall(int event, int x, int y, int flags, void* pUserData)
 	CMatchToolDlg* pDlg = ctx->dlg;
 	CWnd* pView = ctx->view;
 
-	if (event == cv::EVENT_MOUSEMOVE)
-	{
-		int iX = int((x + pDlg->m_hScrollBar.GetScrollPos()) / pDlg->m_dNewScale);
-		int iY = int((y + pDlg->m_vScrollBar.GetScrollPos()) / pDlg->m_dNewScale);
+	//if (event == cv::EVENT_MOUSEMOVE)
+	//{
+	//	int iX = int((x + pDlg->m_hScrollBar.GetScrollPos()) / pDlg->m_dNewScale);
+	//	int iY = int((y + pDlg->m_vScrollBar.GetScrollPos()) / pDlg->m_dNewScale);
 
-		CString strPos;
-		strPos.Format(L"%s : %d, %d", pDlg->m_strLanPixelPos, iX, iY);
-		pDlg->m_statusBar.SetPaneText(3, strPos);
-	}
+	//	CString strPos;
+	//	strPos.Format(L"%s : %d, %d", pDlg->m_strLanPixelPos, iX, iY);
+	//	pDlg->m_statusBar.SetPaneText(3, strPos);
+	//}
 
 	// Draw a tracker with GDI on your control (example)
 	if (event == cv::EVENT_LBUTTONDOWN && pView && pView->GetSafeHwnd())
